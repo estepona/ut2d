@@ -2,5 +2,6 @@
     "python.linting.pylintEnabled": true,
     "python.analysis.disabled": [
         "use-before-def"
-    ]
+    ],
+    "python.formatting.provider": "yapf"
 }
