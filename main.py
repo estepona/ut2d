@@ -17,8 +17,6 @@ def main():
 
     # TODO: error handling, number of digits should be either 10 (s) till 2033 or 13 (ms)
 
-    # TODO: move city below diff, add placehoulder to show that the scrapper is running, and add a wink or sth face to show the result
-
     ut = args.ut
     
     dt_local = datetime.fromtimestamp(ut)
@@ -70,10 +68,12 @@ def main():
 
             dt_city = datetime.fromtimestamp(dt_city_ut)
             print(u'\U0001F60E',
-                  f' Given time in {args.city}: {format(dt_city)}')
+                  f' I suppose the given time in {args.city} is: {format(dt_city)}.'
+                  ' I have 88% confidence with this result from search engines!')
         else:
             print(u'\U0001F925',
-                  ' emmm... I cannot find your city on popular search engines!')
+                  ' emmm... I cannot find your city on popular search engines!'
+                  ' Could it be that the input has any typos?')
 
 
 if __name__ == '__main__':

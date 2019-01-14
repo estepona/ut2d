@@ -46,7 +46,10 @@ def tz_to_gmt(text: str) -> str:
     AST   -> GMT-4 -> -4
     """
     if text[:3].upper() in ['UTC', 'GMT']:
-        return text[3:]
+        if len(text) == 3:
+            return '+0'
+        else:
+            return text[3:]
     else:
         time_in_gmt = TZ_INFO.get(text.upper())
         if not time_in_gmt:
