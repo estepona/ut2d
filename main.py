@@ -2,7 +2,7 @@ import argparse
 import pytz
 from datetime import datetime, timedelta
 
-from lib.scrap import scrap_google
+from lib.scrap import TimezoneScrapper
 
 
 def format(dt: datetime) -> str:
@@ -17,28 +17,32 @@ def main():
 
     # TODO: error handling, number of digits should be either 10 (s) till 2033 or 13 (ms)
 
-    # TODO: if search by city, just use the web, add emoji. get time here: https://www.timeanddate.com/, or google
+    # TODO: move city below diff, add placehoulder to show that the scrapper is running, and add a wink or sth face to show the result
 
     ut = args.ut
     
     dt_local = datetime.fromtimestamp(ut)
     print(f'Local: {format(dt_local)}')
 
-    # TODO: gmt & utc?
     dt_utc = datetime.utcfromtimestamp(ut)
     print(f'GMT  : {format(dt_utc)}')
     
-    if args.city:
-        tz_city = scrap_google(args.city)
-        sign = tz_city[3]
-        tz_diff = int(tz_city[4:])
-        if sign == '-':
-            dt_city_ut = dt_utc.timestamp() - tz_diff * 3600
-        elif sign == '+':
-            dt_city_ut = dt_utc.timestamp() + tz_diff * 3600
 
-        dt_city = datetime.fromtimestamp(dt_city_ut)
-        print(f'{args.city}: {format(dt_city)}')
+    if args.city:
+        ts = TimezoneScrapper(args.city)
+        if ts.timezone:
+            tz_sign = ts.timezone[0]
+            tz_diff = int(ts.timezone[1:])
+            if tz_sign == '-':
+                dt_city_ut = dt_utc.timestamp() - tz_diff * 3600
+            elif tz_sign == '+':
+                dt_city_ut = dt_utc.timestamp() + tz_diff * 3600
+
+            dt_city = datetime.fromtimestamp(dt_city_ut)
+            print(f'{args.city}: {format(dt_city)}')
+        else:
+            print(u'\U0001F925',
+                  ' emmm... I cannot find your city on popular search engines!')
 
     if args.diff:
         dt_now = datetime.now()
