@@ -11,8 +11,8 @@ def format(dt: datetime) -> str:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('ut', type=float)
-    parser.add_argument('--city', '-c', type=str, required=False)
     parser.add_argument('--diff', '-d', action='store_true')
+    parser.add_argument('--city', '-c', type=str, required=False)
     args = parser.parse_args()
 
     # TODO: error handling, number of digits should be either 10 (s) till 2033 or 13 (ms)
@@ -26,23 +26,6 @@ def main():
 
     dt_utc = datetime.utcfromtimestamp(ut)
     print(f'GMT  : {format(dt_utc)}')
-    
-
-    if args.city:
-        ts = TimezoneScrapper(args.city)
-        if ts.timezone:
-            tz_sign = ts.timezone[0]
-            tz_diff = int(ts.timezone[1:])
-            if tz_sign == '-':
-                dt_city_ut = dt_utc.timestamp() - tz_diff * 3600
-            elif tz_sign == '+':
-                dt_city_ut = dt_utc.timestamp() + tz_diff * 3600
-
-            dt_city = datetime.fromtimestamp(dt_city_ut)
-            print(f'{args.city}: {format(dt_city)}')
-        else:
-            print(u'\U0001F925',
-                  ' emmm... I cannot find your city on popular search engines!')
 
     if args.diff:
         dt_now = datetime.now()
@@ -71,6 +54,26 @@ def main():
         diff_str += 'ahead' if ahead else 'ago'
         
         print(diff_str)
+    
+    if args.city:
+        print(u'\U0001F61B',
+              ' I am finding your city on popular search engines! Plz wait a sec...')
+        
+        ts = TimezoneScrapper(args.city)
+        if ts.timezone:
+            tz_sign = ts.timezone[0]
+            tz_diff = int(ts.timezone[1:])
+            if tz_sign == '-':
+                dt_city_ut = dt_utc.timestamp() - tz_diff * 3600
+            elif tz_sign == '+':
+                dt_city_ut = dt_utc.timestamp() + tz_diff * 3600
+
+            dt_city = datetime.fromtimestamp(dt_city_ut)
+            print(u'\U0001F60E',
+                  f' Given time in {args.city}: {format(dt_city)}')
+        else:
+            print(u'\U0001F925',
+                  ' emmm... I cannot find your city on popular search engines!')
 
 
 if __name__ == '__main__':
