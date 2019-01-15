@@ -1,7 +1,12 @@
 {
     "python.linting.pylintEnabled": true,
     "python.analysis.disabled": [
-        "use-before-def"
+        "use-before-def",
+        "unresolved-import"
     ],
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "python.formatting.yapfArgs": [
+        "--style",
+        "facebook"
+    ]
 }

@@ -3,15 +3,11 @@ import pytz
 import time
 from datetime import datetime, timedelta
 
-from lib.scrap import TimezoneScrapper
+from ut2d.scrap import TimezoneScrapper
 
 # TODO: refer to pypi you-get page for a better package description
 
-# TODO: move all items into ut2d folder
-
 # TODO: consider remove type annotations for more support with older versions?
-
-# TODO: format
 
 
 def format(dt: datetime) -> str:
@@ -19,11 +15,10 @@ def format(dt: datetime) -> str:
 
 
 def main():
-    # TODO: add description and helper
-    parser = argparse.ArgumentParser()
-    parser.add_argument('ut_or_now')
-    parser.add_argument('--diff', '-d', action='store_true')
-    parser.add_argument('--city', '-c', type=str, required=False)
+    parser = argparse.ArgumentParser(description='a command-line utility to convert unitx timestamp into human readable datetime.')
+    parser.add_argument('ut_or_now', help='input now or a unix timestamp')
+    parser.add_argument('--diff', '-d', action='store_true', help='time difference between input time and current time')
+    parser.add_argument('--city', '-c', type=str, required=False, help='search local time of named city of input time')
     args = parser.parse_args()
 
     args_invalid = True
