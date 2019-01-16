@@ -54,7 +54,7 @@ Given time is 15 mins, 42 secs ago
 
 You can use `now` with the `-c` flag to get the local time of any city, and you can even use other languages. e.g. 北京 is Beijing, and Montreuil-Juigné is a city in France.
 ```console
-ut2d now -c "北京"
+$ ut2d now -c "北京"
 Unix Timestamp: 1547673691.203567
 Local: Wed, Jan 16, 2019 04:21PM
 GMT  : Wed, Jan 16, 2019 09:21PM
