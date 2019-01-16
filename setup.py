@@ -4,10 +4,13 @@ from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(name='ut2d',
       version='0.1',
-      description='a command-line utility to convert unitx timestamp into human readable datetime.',
-      long_description='',
+      description='a command-line utility to convert unitx timestamp into human readable datetime',
+      long_description=long_description,
       url='https://github.com/estepona/ut2d',
       author='Binghuan Zhang',
       author_email='574953550@qq.com',
