@@ -3,9 +3,8 @@ import pytz
 import time
 from datetime import datetime, timedelta
 
-from scrap import TimezoneScrapper
+from .scrap import TimezoneScrapper
 
-# TODO: refer to pypi you-get page for a better package description
 
 def format(dt: datetime) -> str:
     return dt.strftime('%a, %b %d, %Y %I:%M%p')
