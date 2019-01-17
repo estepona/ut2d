@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='ut2d',
-      version='0.1',
+      version='0.1.2',
       description='a command-line utility to convert unitx timestamp into human readable datetime',
       long_description=long_description,
       url='https://github.com/estepona/ut2d',
@@ -30,7 +30,7 @@ setup(name='ut2d',
         'Topic :: Utilities',
       ],
       keywords='timestamp datetime command-line scrap',
-      packages=find_packages('ut2d'),
+      packages=find_packages(),
       install_requires=['requests', 'bs4'],
       entry_points={
         'console_scripts': [
