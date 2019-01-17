@@ -1,4 +1,6 @@
 # ut2d
+[![PyPI version](https://img.shields.io/badge/pypi-0.1.x-brightgreen.svg)](https://pypi.org/project/ut2d/)
+
 __ut2d__ (unix timestamp to datetime) is a tiny command-line utility to convert unix timestamp into human readable datetime.
 
 If a city name is given, it will scrap the city's time zone from the Web, and calculate the time in that city of given unix timestamp.
