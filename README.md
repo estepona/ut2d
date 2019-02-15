@@ -1,5 +1,5 @@
 # ut2d
-[![PyPI version](https://img.shields.io/badge/pypi-0.1.x-brightgreen.svg)](https://pypi.org/project/ut2d/)
+[![PyPI version](https://img.shields.io/badge/pypi-0.2.x-brightgreen.svg)](https://pypi.org/project/ut2d/)
 
 __ut2d__ (unix timestamp to datetime) is a tiny command-line utility to convert unix timestamp into human readable datetime.
 
@@ -15,7 +15,7 @@ __Python 3.6__ or above is needed in order to install the package
 
 ## Examples
 
-### get datetime (local & GMT)
+### get datetime of given UT
 ```console
 $ ut2d 1547671090
 Unix Timestamp: 1547671090.0
@@ -23,7 +23,7 @@ Local: Wed, Jan 16, 2019 03:38PM
 GMT  : Wed, Jan 16, 2019 08:38PM
 ```
 
-### get current unix timestamp and datetime (local & GMT)
+### get datetime of now
 ```console
 $ ut2d now
 Unix Timestamp: 1547671189.5133939
@@ -31,7 +31,7 @@ Local: Wed, Jan 16, 2019 03:39PM
 GMT  : Wed, Jan 16, 2019 08:39PM
 ```
 
-### get datetime (local & GMT) and time difference
+### get datetime and calculate time difference from now
 ```console
 $ ut2d 1547671090 -d
 Unix Timestamp: 1547671090.0
@@ -40,7 +40,18 @@ GMT  : Wed, Jan 16, 2019 08:38PM
 Given time is 11 mins, 5 secs ago
 ```
 
-### get datetime (local & GMT & given city)
+### get datetime and find the given time in certain timezone
+Provide timezone with prefix "GMT" or "UTC".
+
+```console
+$ ut2d now -tz GMT+8
+Unix Timestamp: 1550257565.5289779
+Local: Fri, Feb 15, 2019 02:06PM
+GMT  : Fri, Feb 15, 2019 07:06PM
+😎  The given time in GMT+8 is: Sat, Feb 16, 2019 03:06AM.
+```
+
+### get datetime and find the given time in certain city
 This is done by scraping the city's timezone from search engines, and calculate the datetime of the given unix timestamp of the given city.
 
 If searching "New York"... (I'm in Boston)

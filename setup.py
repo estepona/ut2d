@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_desc = f.read()
 
 setup(name='ut2d',
-      version='0.1.3',
+      version='0.2.0',
       description='a command-line utility to convert unitx timestamp into human readable datetime',
       long_description=long_desc,
       long_description_content_type="text/markdown",
