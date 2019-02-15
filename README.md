@@ -9,7 +9,7 @@ If you work with unix timestamp a lot or need a tiny utility to get the time of 
 
 ## Installation
 
-__Python 3.5__ or above is needed in order to install the package
+__Python 3.6__ or above is needed in order to install the package
 
 `$ pip3 install ut2d`
 
