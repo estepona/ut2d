@@ -14,7 +14,9 @@ def main():
     parser = argparse.ArgumentParser(description='a command-line utility to convert unitx timestamp into human readable datetime.')
     parser.add_argument('ut_or_now', help='input now or a unix timestamp')
     parser.add_argument('--diff', '-d', action='store_true', help='time difference between input time and current time')
-    parser.add_argument('--city', '-c', type=str, required=False, help='search local time of named city of input time')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--timezone', '-tz', type=str, required=False, help='timezone info formatted as: GMT+8, or UTC+8')
+    group.add_argument('--city', '-c', type=str, required=False, help='search local time of named city of input time')
     args = parser.parse_args()
 
     args_invalid = True
@@ -74,6 +76,22 @@ def main():
             
             print(diff_str)
         
+        if args.timezone:
+            if args.timezone[:3].upper() not in ['GMT', 'UTC']:
+                print(u'\U0001F925',
+                      ' Please provide timezone formatted as: GMT+8, or UTC-9. Only GMT and UTC as prefix are accepted')
+            else:
+                tz_sign = args.timezone[3]
+                tz_diff = int(args.timezone[4:])
+                if tz_sign == '-':
+                    dt_tz_ut = dt_utc.timestamp() - tz_diff * 3600
+                elif tz_sign == '+':
+                    dt_tz_ut = dt_utc.timestamp() + tz_diff * 3600
+                
+                dt_tz = datetime.fromtimestamp(dt_tz_ut)
+                print(u'\U0001F60E',
+                      f' The given time in {args.timezone} is: {format(dt_tz)}.')
+
         if args.city:
             print(u'\U0001F61B',
                   ' I am finding your city on popular search engines! Plz wait a sec...')
