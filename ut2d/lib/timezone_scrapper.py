@@ -36,6 +36,25 @@ TZ_INFO = {
 }
 
 
+def to_utc_fmt(timezone: str) -> Optional[str]:
+    """
+    GMT-4 -> UTC-4
+    UTC-4 -> UTC-4
+    AST   -> UTC-4
+    """
+    if timezone[:3].upper() in ['UTC', 'GMT']:
+        if len(timezone) == 3:
+            return 'UTC+0'
+        else:
+            return timezone
+    else:
+        time_in_utc = TZ_INFO.get(timezone.upper())
+        if time_in_utc is None:
+            return None
+        else:
+            return time_in_utc
+
+
 class TimezoneScrapper:
     """
     Scrap the city's timezone from search engines, then conver to UTC format.
@@ -58,24 +77,6 @@ class TimezoneScrapper:
     def _locate_tz(self, tz_text: str) -> str:
         """locate timezone in raw text"""
         return re.search('\(.*\)', tz_text).group()[1:-1]
-
-    def _to_utc_fmt(self, timezone: str) -> Optional[str]:
-        """
-        GMT-4 -> UTC-4
-        UTC-4 -> UTC-4
-        AST   -> UTC-4
-        """
-        if timezone[:3].upper() in ['UTC', 'GMT']:
-            if len(timezone) == 3:
-                return 'UTC+0'
-            else:
-                return timezone
-        else:
-            time_in_utc = TZ_INFO.get(timezone.upper())
-            if time_in_utc is None:
-                return None
-            else:
-                return time_in_utc
 
     def _find_search_engines(self):
         for se, se_url in SEARCH_ENGINES.items():
@@ -108,7 +109,7 @@ class TimezoneScrapper:
             tz_text = soup.select('span[class="KfQeJ"]')[1].text
             
             tz = self._locate_tz(tz_text)
-            self.timezone = self._to_utc_fmt(tz)
+            self.timezone = to_utc_fmt(tz)
         except:
             pass
 
@@ -124,6 +125,6 @@ class TimezoneScrapper:
             tz_text = soup.select_one('div[class="baselClock"] div[class="b_focusLabel"]').text
 
             tz_fmt = self._locate_tz(tz_text)
-            self.timezone = self._to_utc_fmt(tz_fmt)
+            self.timezone = to_utc_fmt(tz_fmt)
         except:
             pass

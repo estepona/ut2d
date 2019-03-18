@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from typing import Union
 
 from .message import throw_msg
-from .timezone_scrapper import TimezoneScrapper
+from .timezone_scrapper import to_utc_fmt, TimezoneScrapper
 
 
 class Time:
@@ -86,6 +86,10 @@ class Time:
 
     def in_timezone(self, timezone: str) -> datetime:
         """Get the datetime in a given timezone"""
+        timezone = to_utc_fmt(timezone)
+        if timezone is None:
+            throw_msg(1, 'tz_fmt_invalid', True)
+
         tz_sign = timezone[3]
         tz_diff = int(timezone[4:])
 
