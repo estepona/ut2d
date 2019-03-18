@@ -1,17 +1,22 @@
 # ut2d
-[![PyPI version](https://img.shields.io/badge/pypi-0.2.x-brightgreen.svg)](https://pypi.org/project/ut2d/)
+[![PyPI version](https://img.shields.io/badge/pypi-0.3.x-brightgreen.svg)](https://pypi.org/project/ut2d/)
 
-__ut2d__ (unix timestamp to datetime) is a tiny command-line utility to convert unix timestamp into human readable datetime.
+__ut2d__ (unix timestamp to datetime) is a tiny command-line utility to convert unix timestamp into human readable datetime. This tool intends to use the least amount of related packages or the complicated calculations and convertions on datetime topic, and provide a very simple interface to help you convert unix timestamp in a super quick manner.
 
-If a city name is given, it will scrap the city's time zone from the Web, and calculate the time in that city of given unix timestamp.
+Here is a list of all functionalities supported (details are in __Examples__ section):
+- get datetime of given ut;
+- get datetime of now;
+- get datetime and calculate time difference from now;
+- get datetime and find the given time in certain timezone;
+- get datetime and find the given time (with scrapper) in certain city (any city);
 
-If you work with unix timestamp a lot or need a tiny utility to get the time of another city that native `date` command cannot provide, `ut2d` can make your life a little bit easier.
+If you work with unix timestamp a lot or need a tiny utility to get the time of another city that linux `date` command cannot provide, `ut2d` can hopefully make your life a little bit easier.
 
 ## Installation
 
-__Python 3.6__ or above is needed in order to install the package
+prerequisite: __Python 3.6__ or above
 
-`$ pip3 install ut2d`
+`$ pip install ut2d`
 
 ## Examples
 
@@ -44,7 +49,7 @@ Given time is 11 mins, 5 secs ago
 Provide timezone with prefix "GMT" or "UTC".
 
 ```console
-$ ut2d now -tz GMT+8
+$ ut2d now -tz "GMT+8"
 Unix Timestamp: 1550257565.5289779
 Local: Fri, Feb 15, 2019 02:06PM
 GMT  : Fri, Feb 15, 2019 07:06PM
