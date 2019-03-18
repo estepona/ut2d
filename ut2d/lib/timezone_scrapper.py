@@ -67,7 +67,7 @@ class TimezoneScrapper:
         """
         if timezone[:3].upper() in ['UTC', 'GMT']:
             if len(timezone) == 3:
-                return '+0'
+                return 'UTC+0'
             else:
                 return timezone
         else:
