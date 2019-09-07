@@ -12,7 +12,8 @@ SEARCH_ENGINES = {
 }
 
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+    'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
 }
 
 TZ_INFO = {
@@ -65,17 +66,14 @@ class TimezoneScrapper:
     Pre-selected search engines will be tested for availability, and then
     scrapped to collect the timezone information.
     """
-
-    def __init__(self, city: str):
-        self.city = city
+    def __init__(self):
         self.search_engines = []
         self.timezone = None
-        
-        self._find_search_engines()
-        self._find_timezone()
-    
+
     def _locate_tz(self, tz_text: str) -> str:
-        """locate timezone in raw text"""
+        """
+        locate timezone in raw text
+        """
         return re.search('\(.*\)', tz_text).group()[1:-1]
 
     def _find_search_engines(self):
@@ -89,16 +87,16 @@ class TimezoneScrapper:
 
         if not self.search_engines:
             throw_msg(0, 'search_conn_failed', True)
-    
-    def _find_timezone(self):
+
+    def _find_timezone(self, city: str):
         for se in self.search_engines:
             if (se == 'google') and (not self.timezone):
-                self._scrap_google()
+                self._scrap_google(city)
             if (se == 'bing') and (not self.timezone):
-                self._scrap_bing()
+                self._scrap_bing(city)
 
-    def _scrap_google(self):
-        city_fmt = self.city.lstrip().rstrip().replace(' ', '+')
+    def _scrap_google(self, city: str):
+        city_fmt = city.strip().replace(' ', '+')
 
         base_url = 'https://www.google.com/search?q='
         full_url = base_url + city_fmt + '+' + 'time'
@@ -107,14 +105,14 @@ class TimezoneScrapper:
             r = requests.get(full_url, headers=HEADERS)
             soup = BS(r.content, 'html.parser')
             tz_text = soup.select('span[class="KfQeJ"]')[1].text
-            
+
             tz = self._locate_tz(tz_text)
             self.timezone = to_utc_fmt(tz)
         except:
             pass
 
-    def _scrap_bing(self):
-        city_fmt = self.city.lstrip().rstrip().replace(' ', '%20')
+    def _scrap_bing(self, city: str) -> Optional[str]:
+        city_fmt = city.strip().replace(' ', '%20')
 
         base_url = 'https://www.bing.com/search?q='
         full_url = base_url + city_fmt + '%20' + 'time'
@@ -122,9 +120,16 @@ class TimezoneScrapper:
         try:
             r = requests.get(full_url, headers=HEADERS)
             soup = BS(r.content, 'html.parser')
-            tz_text = soup.select_one('div[class="baselClock"] div[class="b_focusLabel"]').text
+            tz_text = soup.select_one(
+                'div[class="baselClock"] div[class="b_focusLabel"]').text
 
             tz_fmt = self._locate_tz(tz_text)
             self.timezone = to_utc_fmt(tz_fmt)
         except:
             pass
+
+    def scrap(self, city: str) -> Optional[str]:
+        self._find_search_engines()
+        self._find_timezone(city)
+
+        return self.timezone

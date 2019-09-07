@@ -38,7 +38,8 @@ MSG_TYPE = {
 
 
 def throw_msg(msg_type: int, msg_name: str, sys_exit: bool = False):
-    """Throw message spicified by message type and message name.
+    """
+    Throw message spicified by message type and message name.
     
     If sys_exit is set to True, exit the program.
     """

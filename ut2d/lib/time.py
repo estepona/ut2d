@@ -7,7 +7,8 @@ from .timezone_scrapper import to_utc_fmt, TimezoneScrapper
 
 
 class Time:
-    """A wrapper class providng all the functionalities supported by ut2d package.
+    """
+    A wrapper class providng all the functionalities supported by ut2d package.
 
     Args:
         ut: unix timestamp
@@ -22,7 +23,9 @@ class Time:
         self.dt_utc = datetime.utcfromtimestamp(self.ut_local)
     
     def _convert_ut(self, ut: Union[int, float]) -> float:
-        """Convert input unix timstamp to 10-digit (in seconds)"""
+        """
+        Convert input unix timstamp to 10-digit (in seconds)
+        """
         ut = float(ut)
 
         if ut <= 1e10:
@@ -32,7 +35,8 @@ class Time:
 
     @staticmethod
     def is_valid(ut: Union[int, float]) -> bool:
-        """Check if the input unix timestamp is either 10-digit (in seconds) or
+        """
+        Check if the input unix timestamp is either 10-digit (in seconds) or
         13-digit (in milliseconds).
 
         All other inputs are invalid.
@@ -51,7 +55,8 @@ class Time:
 
     @staticmethod
     def fmt(dt: datetime) -> str:
-        """Format datetime to: day of week, date, time
+        """
+        Format datetime to: day of week, date, time
         
         e.g. Sat, Mar 16, 2019 07:31PM
         """
@@ -67,7 +72,9 @@ class Time:
 
     @property
     def from_now(self) -> str:
-        """Get the time difference (timedelta) from now"""
+        """
+        Get the time difference (timedelta) from now
+        """
         if self.ut_now >= self.ut_local:
             diff = self.dt_now - self.dt_local
             ahead = False
@@ -85,7 +92,9 @@ class Time:
         return diff_fmt
 
     def in_timezone(self, timezone: str) -> datetime:
-        """Get the datetime in a given timezone"""
+        """
+        Get the datetime in a given timezone
+        """
         timezone = to_utc_fmt(timezone)
         if timezone is None:
             throw_msg(1, 'tz_fmt_invalid', True)
@@ -101,12 +110,14 @@ class Time:
         return datetime.fromtimestamp(dt)
     
     def in_city(self, city: str) -> datetime:
-        """Get the datetime in a given city by first scrap the timezone
+        """
+        Get the datetime in a given city by first scrap the timezone
         info with a scrapper, then call the in_timezone method.
         """
-        ts = TimezoneScrapper(city)
+        ts = TimezoneScrapper()
+        timezone = ts.scrap(city)
 
-        if ts.timezone:
-            return self.in_timezone(ts.timezone)
+        if timezone:
+            return self.in_timezone(timezone)
         else:
             throw_msg(0, 'search_tz_failed', 1)
