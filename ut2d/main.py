@@ -36,7 +36,8 @@ def main():
 
     dt_city = dt.in_city(args.city)
     print(
-      f'{EMOJI["smiling_face_with_sunglasses"]}  I suppose the given time in {args.city} is: {Time.fmt(dt_city)}. I have 88% confidence with this result from search engines!'
+      f'{EMOJI["smiling_face_with_sunglasses"]}  I suppose the given time in {args.city} is: {Time.fmt(dt_city)}.'
+      ' I have 88% confidence with this result from search engines!'
     )
 
 
